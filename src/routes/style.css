@@ -1,0 +1,29 @@
+@import '@fontsource/open-sans';
+
+:root {
+	--font-body: 'Open Sans', sans-serif;
+	font-family: var(--font-body);
+	color: var(--color-text);
+  background-color: #F9FBFC;
+}
+
+body {
+	min-height: 100vh;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+input,
+button {
+	font-size: inherit;
+	font-family: inherit;
+}
+
+
