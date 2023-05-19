@@ -1,7 +1,11 @@
+<script lang="ts">
+  export let car;
+</script>
+
 <section>
   <header>
-    <h2>BMW M4</h2>
-    <span>2018</span>
+    <h2>{car?.brand || "Unknown brand"}</h2>
+    {#if car?.year}<span>{car.year}</span>{/if}
   </header>
   <img src="https://fakeimg.pl/400x300" alt="test" />
 </section>

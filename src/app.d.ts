@@ -7,6 +7,14 @@ declare global {
 		// interface PageData {}
 		// interface Platform {}
 	}
+
+	interface Car {
+		id: string,
+		brand: string
+		model: string
+		year: string
+		image: string
+	}
 }
 
 export {};

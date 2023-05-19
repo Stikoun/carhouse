@@ -1,27 +1,27 @@
 <script lang="ts">
-  export const ssr = false;
   import { cars } from "../stores";
+    import { goto } from '$app/navigation';
 
-  console.log(cars);
-
-  // const setCars = (cars: object[]) => {
-  //   localStorage.setItem('cars', JSON.stringify(cars));
-  // }
-
-  // setCars(cars);
+    const deleteCar = carId => {
+      cars.delete(carId);
+      const lastCarId = $cars[$cars.length - 1]?.id;
+      lastCarId && goto(`/${lastCarId}`);
+    }
 </script>
 
 <aside>
   <header>
     <h2>Car list</h2>
-    <button type="button">Delete all</button>
+    <button type="button" on:click={cars.reset}>Delete all</button>
   </header>
   <ul>
-    {#each $cars as car}
+    {#each $cars as car (car.id)}
       <li>
         <!-- JOIN -->
-        <span>{car.brand}{` ${car.model || ''}`}</span>
-        <span>x</span>
+        <a href={`/${car.id}`}>
+          {car.brand}{` ${car.model || ''}`}
+          </a>
+        <span on:click={() => deleteCar(car.id)} on:keydown={() => deleteCar(car.id)}>x</span>
       </li>
     {/each}
   </ul>

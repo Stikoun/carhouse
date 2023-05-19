@@ -2,6 +2,9 @@
 
 :root {
 	--font-body: 'Open Sans', sans-serif;
+	--primary-color: #405FF2;
+	--gray-color-light: #CCC;
+	--gray-color-dark: #A2A2A2;
 	font-family: var(--font-body);
 	color: var(--color-text);
   background-color: #F9FBFC;

@@ -1,11 +1,17 @@
 <script lang="ts">
   import "./style.css";
+  import List from "../cars/List.svelte";
+  import Form from "../cars/Form.svelte";
 </script>
 
 <div class="app">
 
 	<main>
-		<slot />
+		<Form />
+		<div class="wrapper">
+			<List />
+			<slot />
+		</div>
 	</main>
 
 	<footer>
@@ -30,6 +36,11 @@
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
+
+	  .wrapper {
+    display: flex;
+    gap: 20px;
+  }
 
 	footer {
 		display: flex;

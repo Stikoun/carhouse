@@ -1,15 +1,20 @@
 <script lang="ts">
-  export let type: string;
+  export let type = "text";
   export let name: string;
   export let label: string | undefined = undefined;
+  export let value = "";
+
+  const handleInput = e => {
+    value = e.target.value;
+  }
 </script>
 
 <div class="input-container">
   {#if label}      
     <label for={name}>{label}</label>
-    <input type={type} name={name} id={name} class="has-label" {...$$restProps} />
+    <input {type} {name} id={name} {value} class="has-label" on:input={handleInput} {...$$restProps} />
   {:else}
-    <input type={type} name={name} id={name} {...$$restProps} />
+    <input {type} {name} id={name} {value} on:input={handleInput} {...$$restProps} />
   {/if}
 </div>
 
@@ -18,11 +23,11 @@
     position: relative;
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid var(--gray-color-light);
   }
 
   .input-container:hover {
-    border-color: #a2a2a2;
+    border-color: var(--gray-color-dark);
   }
 
   input {
@@ -41,6 +46,6 @@
     left: 10px;
     top: 5px;
     font-size: 14px;
-    color: #a2a2a2;
+    color: var(--gray-color-dark);
   }
 </style>
