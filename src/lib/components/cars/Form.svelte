@@ -51,8 +51,13 @@
 	button {
 		background-color: var(--primary-color);
 		border: none;
-		color: #fff;
+		color: #FFF;
+		cursor: pointer;
 		border-radius: 10px;
+	}
+
+	button:hover {
+		box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.25), 0 20px 50px 0 rgba(0, 0, 0, 0.2);
 	}
 
 	.input-group > :global(:first-child) {

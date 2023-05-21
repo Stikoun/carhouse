@@ -46,7 +46,7 @@
 	}
 
 	button {
-		color: blue;
+		color: var(--primary-color);
 		border: none;
 		background-color: transparent;
 	}
@@ -56,7 +56,7 @@
 		justify-content: space-between;
 		gap: 10px;
 		padding: 15px 0;
-		border-bottom: 1px solid #ccc;
+		border-bottom: 1px solid var(--gray-color-light);
 	}
 
 	ul {

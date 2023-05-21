@@ -8,7 +8,9 @@
 
 <div class="app">
 	<main>
-		<Form />
+		<div class="form">
+			<Form />
+		</div>
 		<div class="wrapper">
 			<List />
 			{#if $selectedCar.id}
@@ -32,7 +34,7 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		padding: 16px;
 		width: 100%;
 		max-width: 64rem;
 		margin: 0 auto;
@@ -42,11 +44,15 @@
 	.wrapper {
 		display: flex;
 		gap: 20px;
+		margin-top: 30px;
+	}
+
+	.form {
+		background-color: #FFF;
+		padding: 20px;
 	}
 
 	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
-		}
+
 	}
 </style>
