@@ -1,22 +1,24 @@
 <script lang="ts">
-  import "./style.css";
-  import List from "../cars/List.svelte";
-  import Form from "../cars/Form.svelte";
+	import "./style.css";
+	import Form from "$components/cars/Form.svelte";
+	import Detail from "$components/cars/Detail.svelte";
+	import List from "$components/cars/List.svelte";
+	import { selectedCar } from "$stores/cars";
 </script>
 
 <div class="app">
-
 	<main>
 		<Form />
 		<div class="wrapper">
 			<List />
-			<slot />
+			{#if $selectedCar.id}
+				<Detail />
+			{:else}
+				TEST
+			{/if}
 		</div>
+		<slot />
 	</main>
-
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
 </div>
 
 <style>
@@ -37,21 +39,9 @@
 		box-sizing: border-box;
 	}
 
-	  .wrapper {
-    display: flex;
-    gap: 20px;
-  }
-
-	footer {
+	.wrapper {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 12px;
-	}
-
-	footer a {
-		font-weight: bold;
+		gap: 20px;
 	}
 
 	@media (min-width: 480px) {

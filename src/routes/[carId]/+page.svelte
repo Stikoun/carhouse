@@ -1,19 +1,10 @@
 <script lang="ts">
-    import Detail from "../../cars/Detail.svelte";
-    import { page } from "$app/stores";
-    import {cars, selectedCar} from "../../stores";
-    import {get} from 'svelte/store';
+	import { page } from "$app/stores";
+	import { cars, selectedCar } from "$stores/cars";
 
-    // let storedCars = get(cars);
-    // cars.subscribe(storedCars => selectedCar.select(storedCars.find(car => car.id === $page?.params?.carId)));
-
-    $: queriedCar = $cars.find(car => car.id === $page?.params?.carId);
+	// get url param and search for car in store
+	$: queriedCar = $cars.find((car) => car.id === $page?.params?.carId);
+	$: if (queriedCar) {
+		selectedCar.select(queriedCar);
+	}
 </script>
-
-{#if $selectedCar}
-    <Detail car={$selectedCar} />
-{:else}
-    TEST
-{/if}
-
-{JSON.stringify($selectedCar)};
