@@ -1,20 +1,38 @@
 <script lang="ts">
-  import { selectedCar } from "$stores/cars";
+	import { selectedCar } from "$stores/cars";
+
+	// fields to be shown in same layout
+	const fields = ["brand", "model", "year"];
 </script>
 
 <section>
-	<header>
-		<h2>{[$selectedCar.brand, $selectedCar.model].join(" ")}</h2>
-		{#if $selectedCar?.year}<span>{$selectedCar.year}</span>{/if}
-	</header>
-	{#if $selectedCar?.image}<img src="{$selectedCar?.image}" alt={`${[$selectedCar.brand, $selectedCar.model].join(" ")}`} />{/if}
+	{#if $selectedCar?.image}
+		<img src={$selectedCar?.image} alt={`${[$selectedCar.brand, $selectedCar.model].join(" ")}`} />
+	{/if}
+	<div>
+		<header>
+			<h2>{[$selectedCar.brand, $selectedCar.model].join(" ")}</h2>
+		</header>
+		<div class="fields">
+			{#each fields as field}
+				{#if $selectedCar[field]}
+					<div class="field">
+						<h3>{field}</h3>
+						<div>{$selectedCar[field]}</div>
+					</div>
+				{/if}
+			{/each}
+		</div>
+	</div>
 </section>
 
 <style>
 	section {
-		background-color: #FFF;
+		display: flex;
+		gap: 30px;
+		background-color: #fff;
 		border-radius: var(--basic-border-radius);
-		padding: 10px;
+		padding: 20px;
 		flex: 1;
 	}
 
@@ -24,15 +42,31 @@
 		align-items: center;
 	}
 
-	header > span {
-		background-color: var(--primary-color);
-		color: #FFF;
-		padding: 5px;
-		border-radius: var(--basic-border-radius);
-		font-size: 14px;
+	header > h2 {
+		margin-top: 0;
+	}
+
+	.fields {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 20px 80px;
+	}
+
+	.field > h3 {
+		font-size: 18px;
+		margin: 0;
+		color: var(--gray-color-dark);
+		text-transform: capitalize;
+	}
+
+	.field > div {
+		font-size: 20px;
 	}
 
 	img {
-		max-height: 300px;
+		width: 220px;
+		height: 220px;
+		border-radius: var(--basic-border-radius);
+		object-fit: cover;
 	}
 </style>

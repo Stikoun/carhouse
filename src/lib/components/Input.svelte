@@ -5,7 +5,7 @@
 	export let value = "";
 	export let error = "";
 
-	let fileErrors = [];
+	let fileErrors: string[] = [];
 
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
 		const target = e.target as HTMLInputElement;
@@ -19,21 +19,20 @@
 		if (validateImageFile(image)) {
 			let reader = new FileReader();
 			reader.readAsDataURL(image);
-			reader.onload = e => {
+			reader.onload = (e) => {
 				value = e.target.result.toString();
-			}
+			};
 		}
-	}
+	};
 
-	const validateImageFile = (image) => {
+	const validateImageFile = (image: HTMLInputElement) => {
 		// convert to MB
-		const size = Math.round((image.size / 1024));
+		const size = Math.round(image.size / 1024);
 		// get file extension
 		const extension = image.name.split(".").pop();
-
 		const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
 
-		if (!allowedExtensions.includes(extension)) {
+		if (extension && !allowedExtensions.includes(extension)) {
 			fileErrors = [...fileErrors, "This file extension is not allowed."];
 		}
 
@@ -41,8 +40,8 @@
 			fileErrors = [...fileErrors, "Size of file is bigger than 2MB."];
 		}
 
-		return !(fileErrors.length > 0);
-	}
+		return !fileErrors.length;
+	};
 </script>
 
 <!-- 
@@ -51,16 +50,16 @@
  -->
 <div class="input">
 	<div class="input-container">
-	{#if label}
-		<label for={name}>{label}</label>
-	{/if}
+		{#if label}
+			<label for={name}>{label}</label>
+		{/if}
 		<input
 			{type}
 			{name}
 			id={name}
-			value={type !== 'file' ? value : ""}
+			value={type !== "file" ? value : ""}
 			class={label ? "has-label" : undefined}
-			on:input={type === 'file' ? handleFileInput : handleInput}
+			on:input={type === "file" ? handleFileInput : handleInput}
 			{...$$restProps}
 		/>
 	</div>
@@ -74,7 +73,6 @@
 		position: relative;
 		display: flex;
 		align-items: center;
-		border: 1px solid var(--gray-color-light);
 	}
 
 	.input-container:hover {
@@ -82,7 +80,7 @@
 	}
 
 	input {
-		height: 30px;
+		font-size: 20px;
 		padding: 10px;
 		border: none;
 		border-radius: inherit;
@@ -90,7 +88,28 @@
 	}
 
 	input.has-label {
-		padding: 30px 10px 10px;
+		padding: 30px 10px 0;
+	}
+
+	input[type="file"],
+	input[type="file"]::file-selector-button {
+		font-size: 14px;
+	}
+
+	input[type="file"]::file-selector-button {
+		margin-right: 10px;
+		border: none;
+		background: var(--primary-color-light);
+		padding: 10px 20px;
+		border-radius: var(--basic-border-radius);
+		color: var(--primary-color);
+		cursor: pointer;
+		transition: background 0.2s ease-in-out;
+	}
+
+	input[type="file"]::file-selector-button:hover {
+		background: var(--primary-color);
+		color: #fff;
 	}
 
 	label {
@@ -99,6 +118,7 @@
 		top: 5px;
 		font-size: 14px;
 		color: var(--gray-color-dark);
+		font-weight: 600;
 	}
 
 	.errors {

@@ -15,6 +15,12 @@ declare global {
 		year: string
 		image: string
 	}
+
+	interface CarErrors {
+		brand?: string,
+		model?: string,
+		year?: string
+	}
 }
 
 export {};

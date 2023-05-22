@@ -8,18 +8,14 @@
 
 <div class="app">
 	<main>
-		<div class="form">
-			<Form />
-		</div>
+		<Form />
 		<div class="wrapper">
 			<List />
 			{#if $selectedCar.id}
 				<Detail />
-			{:else}
-				TEST
 			{/if}
+			<slot />
 		</div>
-		<slot />
 	</main>
 </div>
 
@@ -37,21 +33,16 @@
 		padding: 16px;
 		width: 100%;
 		max-width: 64rem;
-		margin: 0 auto;
+		margin: 40px auto 0;
 		box-sizing: border-box;
 	}
 
 	.wrapper {
 		display: grid;
-		grid-template-columns: 20% 1fr;
+		grid-template-columns: 25% 1fr;
+		align-items: start;
 		gap: 20px;
-		margin-top: 30px;
-	}
-
-	.form {
-		background-color: #FFF;
-		padding: 20px;
-		border-radius: var(--basic-border-radius);
+		margin-top: 20px;
 	}
 
 	@media (max-width: 900px) {

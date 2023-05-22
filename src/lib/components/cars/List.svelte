@@ -4,7 +4,6 @@
 	import { browser } from "$app/environment";
 	import Close from "$components/Close.svelte";
 
-
 	// TODO: reset file field, prepare no cars find
 	const deleteCar = (carId: string) => {
 		cars.delete(carId);
@@ -16,12 +15,11 @@
 	};
 
 	// reset selected car if there are no cars left
-	cars.subscribe(storedCars => {
-		if (browser && !storedCars.length) {
-			goto('/');
+	cars.subscribe((storedCars) => {
+		if (browser && !storedCars.length && $selectedCar) {
 			selectedCar.reset();
 		}
-	})
+	});
 </script>
 
 <aside>
@@ -31,7 +29,7 @@
 	</header>
 	<ul>
 		{#if !$cars.length}
-			<li class="placeholder">Add some cars to show them here</li>
+			<li class="placeholder">Add a car to show it here</li>
 		{:else}
 			{#each $cars as car (car.id)}
 				<li>
@@ -47,7 +45,6 @@
 
 <style>
 	aside {
-		padding: 10px;
 		background-color: #fff;
 		border-radius: var(--basic-border-radius);
 	}
@@ -73,20 +70,27 @@
 		display: flex;
 		justify-content: space-between;
 		gap: 10px;
-		padding: 15px 0;
+		padding: 15px;
 		border-bottom: 1px solid var(--gray-color-light);
 	}
 
 	ul {
 		list-style-type: none;
-		padding: 0;
+		padding: 0 15px;
+		margin: 0;
 	}
 
 	li {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin: 10px 0;
+		padding: 15px 0;
+		border-bottom: 1px solid var(--gray-color-light);
+		font-weight: 600;
+	}
+
+	ul > li:last-child {
+		border-bottom: none;
 	}
 
 	li > a {
@@ -98,6 +102,8 @@
 		padding: 10px;
 		border-radius: var(--basic-border-radius);
 		font-size: 14px;
+		margin: 20px 0;
+		justify-content: center;
 	}
 
 	@media (max-width: 900px) {

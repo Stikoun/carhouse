@@ -1,16 +1,18 @@
-@import '@fontsource/open-sans';
+@import "@fontsource/open-sans/400.css";
+@import "@fontsource/open-sans/600.css";
 
 :root {
-	--font-body: 'Open Sans', sans-serif;
+	--font-body: "Open Sans", sans-serif;
 	--color-text: "#000";
-	--primary-color: #405FF2;
-	--primary-color-dark: #0E2685;
-	--gray-color-light: #CCC;
-	--gray-color-dark: #A2A2A2;
+	--primary-color: #405ff2;
+	--primary-color-light: #ebeef3;
+	--primary-color-dark: #0e2685;
+	--gray-color-light: #ccc;
+	--gray-color-dark: #747474;
 	--basic-border-radius: 10px;
 	font-family: var(--font-body);
 	color: var(--color-text);
-  background-color: #F9FBFC;
+	background-color: var(--primary-color-light);
 }
 
 * {
@@ -36,5 +38,3 @@ button {
 	font-size: inherit;
 	font-family: inherit;
 }
-
-

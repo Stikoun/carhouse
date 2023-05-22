@@ -8,11 +8,10 @@
 	// car object bound to inputs
 	let newCar: Car = { ...carInitialValues };
 	// storing form errors
-	let errors = {};
+	let errors: CarErrors = {};
 
 	const handleSubmit = () => {
 		if (validateForm(newCar)) {
-			errors = {};
 			const newCarId = cars.add(newCar);
 
 			if (newCarId) {
@@ -24,10 +23,14 @@
 	};
 
 	const validateForm = (car: Car) => {
+		// reset errors object
+		errors = {};
 		let valid = true;
-		const requiredFields = ['brand', 'model'];
+		const requiredFields = ["brand", "model"];
 		// make an object from required fields that are not filled
-		const errorsArray = requiredFields.filter(field => !car[field]).map(field => [field, "This field is required"]);
+		const errorsArray = requiredFields
+			.filter((field) => !car[field as keyof Car])
+			.map((field) => [field, "This field is required"]);
 
 		if (errorsArray.length) {
 			errors = Object.fromEntries(errorsArray);
@@ -35,40 +38,74 @@
 		}
 
 		// check number value for car year
-		if (car.year && !(/^\d+$/.test(car.year))) {
+		if (car.year && !/^\d+$/.test(car.year)) {
 			errors["year"] = "You have to enter a number value";
 			valid = false;
 		}
 		return valid;
-	}
+	};
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
 	<div class="input-wrapper">
 		<div class="input-group">
-			<Input type="text" name="brand" label="Car brand" required error={errors.brand} bind:value={newCar.brand} />
-			<Input type="text" name="model" label="Car model" required error={errors.model} bind:value={newCar.model} />
 			<Input
-					type="number"
-					name="year"
-					label="Car year"
-					max={currentYear}
-					bind:value={newCar.year}
+				type="text"
+				name="brand"
+				label="Brand"
+				placeholder="BMW"
+				required
+				error={errors.brand}
+				bind:value={newCar.brand}
 			/>
-			<Input type="file" name="image" label="Car image" bind:value={newCar.image} accept=".jpg, .jpeg, .png, .webp" />
+			<Input
+				type="text"
+				name="model"
+				label="Model"
+				placeholder="M4"
+				required
+				error={errors.model}
+				bind:value={newCar.model}
+			/>
+			<Input
+				type="number"
+				name="year"
+				label="Year"
+				placeholder="2020"
+				max={currentYear}
+				bind:value={newCar.year}
+			/>
+			<Input
+				type="file"
+				name="image"
+				label="Image"
+				accept=".jpg, .jpeg, .png, .webp"
+				bind:value={newCar.image}
+			/>
 		</div>
-		<button>Add</button>
+		<button>Add car</button>
 	</div>
 </form>
 
 <style>
+	form {
+		background-color: #fff;
+		border-radius: var(--basic-border-radius);
+		padding: 10px;
+	}
+
 	button {
 		min-width: 150px;
 		max-height: 70px;
-		background-image: linear-gradient(to right, var(--primary-color) 40%, var(--primary-color-dark) 100%);
+		background-image: linear-gradient(
+			to right,
+			var(--primary-color) 40%,
+			var(--primary-color-dark) 100%
+		);
 		background-size: 200% auto;
+		box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 		transition: 0.5s;
-		color: #FFF;
+		color: #fff;
 		border: none;
 		border-radius: var(--basic-border-radius);
 		cursor: pointer;
@@ -88,11 +125,11 @@
 		gap: 15px;
 	}
 
-	.input-group > :global(.input:first-child > .input-container) {
-		border-radius: var(--basic-border-radius) 0 0 var(--basic-border-radius);
+	.input-group > :global(.input) {
+		border-right: 1px solid var(--gray-color-light);
 	}
 
-	.input-group > :global(.input:last-child > .input-container) {
-		border-radius: 0 var(--basic-border-radius) var(--basic-border-radius) 0;
+	.input-group > :global(.input:last-child) {
+		border-right: none;
 	}
 </style>
