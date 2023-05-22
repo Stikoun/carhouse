@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cars, selectedCar } from "$stores/cars";
 	import { goto } from "$app/navigation";
+	import { browser } from "$app/environment";
 	import Close from "$components/Close.svelte";
 
 
@@ -16,7 +17,7 @@
 
 	// reset selected car if there are no cars left
 	cars.subscribe(storedCars => {
-		if (!storedCars.length) {
+		if (browser && !storedCars.length) {
 			goto('/');
 			selectedCar.reset();
 		}
@@ -30,7 +31,7 @@
 	</header>
 	<ul>
 		{#if !$cars.length}
-			<li>Add some cars to show them here</li>
+			<li class="placeholder">Add some cars to show them here</li>
 		{:else}
 			{#each $cars as car (car.id)}
 				<li>
@@ -90,6 +91,13 @@
 
 	li > a {
 		color: #000;
+	}
+
+	.placeholder {
+		background-color: var(--gray-color-light);
+		padding: 10px;
+		border-radius: var(--basic-border-radius);
+		font-size: 14px;
 	}
 
 	@media (max-width: 900px) {
