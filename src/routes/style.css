@@ -4,11 +4,18 @@
 	--font-body: 'Open Sans', sans-serif;
 	--color-text: "#000";
 	--primary-color: #405FF2;
+	--primary-color-dark: #0E2685;
 	--gray-color-light: #CCC;
 	--gray-color-dark: #A2A2A2;
+	--basic-border-radius: 10px;
 	font-family: var(--font-body);
 	color: var(--color-text);
   background-color: #F9FBFC;
+}
+
+* {
+	min-width: 0;
+	max-width: 100%;
 }
 
 body {

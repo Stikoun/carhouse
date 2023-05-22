@@ -42,7 +42,8 @@
 	}
 
 	.wrapper {
-		display: flex;
+		display: grid;
+		grid-template-columns: 20% 1fr;
 		gap: 20px;
 		margin-top: 30px;
 	}
@@ -50,9 +51,12 @@
 	.form {
 		background-color: #FFF;
 		padding: 20px;
+		border-radius: var(--basic-border-radius);
 	}
 
-	@media (min-width: 480px) {
-
+	@media (max-width: 900px) {
+		.wrapper {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

@@ -4,18 +4,18 @@
 
 <section>
 	<header>
-		<h2>{$selectedCar?.brand || "Unknown brand"}</h2>
+		<h2>{[$selectedCar.brand, $selectedCar.model].join(" ")}</h2>
 		{#if $selectedCar?.year}<span>{$selectedCar.year}</span>{/if}
 	</header>
-	<img src="https://fakeimg.pl/400x300" alt="test" />
+	{#if $selectedCar?.image}<img src="{$selectedCar?.image}" alt={`${[$selectedCar.brand, $selectedCar.model].join(" ")}`} />{/if}
 </section>
 
 <style>
 	section {
-		background-color: #fff;
-		border-radius: 10px;
-		margin: 10px 0;
+		background-color: #FFF;
+		border-radius: var(--basic-border-radius);
 		padding: 10px;
+		flex: 1;
 	}
 
 	header {
@@ -25,9 +25,14 @@
 	}
 
 	header > span {
-		background-color: aquamarine;
+		background-color: var(--primary-color);
+		color: #FFF;
 		padding: 5px;
-		border-radius: 10px;
+		border-radius: var(--basic-border-radius);
 		font-size: 14px;
+	}
+
+	img {
+		max-height: 300px;
 	}
 </style>

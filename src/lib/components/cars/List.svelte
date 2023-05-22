@@ -1,35 +1,46 @@
 <script lang="ts">
 	import { cars, selectedCar } from "$stores/cars";
 	import { goto } from "$app/navigation";
+	import Close from "$components/Close.svelte";
 
+
+	// TODO: reset file field, prepare no cars find
 	const deleteCar = (carId: string) => {
 		cars.delete(carId);
 		const lastCarId = $cars[$cars.length - 1]?.id;
 
-    if (lastCarId) {
-      goto(`/${lastCarId}`);
-    } else {
-      goto('/');
-      selectedCar.reset();
-    }
+		if (lastCarId) {
+			goto(`/${lastCarId}`);
+		}
 	};
+
+	// reset selected car if there are no cars left
+	cars.subscribe(storedCars => {
+		if (!storedCars.length) {
+			goto('/');
+			selectedCar.reset();
+		}
+	})
 </script>
 
 <aside>
 	<header>
 		<h2>Car list</h2>
-		<button type="button" on:click={cars.reset}>Delete all</button>
+		{#if $cars.length}<button type="button" on:click={cars.reset}>Delete all</button>{/if}
 	</header>
 	<ul>
-		{#each $cars as car (car.id)}
-			<li>
-				<!-- JOIN -->
-				<a href={`/${car.id}`}>
-					{car.brand}{` ${car.model || ""}`}
-				</a>
-				<span on:click={() => deleteCar(car.id)} on:keydown={() => deleteCar(car.id)}>x</span>
-			</li>
-		{/each}
+		{#if !$cars.length}
+			<li>Add some cars to show them here</li>
+		{:else}
+			{#each $cars as car (car.id)}
+				<li>
+					<a href={`/${car.id}`}>
+						{[car.brand, car.model].join(" ")}
+					</a>
+					<Close on:click={() => deleteCar(car.id)} on:keydown={() => deleteCar(car.id)} />
+				</li>
+			{/each}
+		{/if}
 	</ul>
 </aside>
 
@@ -37,7 +48,7 @@
 	aside {
 		padding: 10px;
 		background-color: #fff;
-		border-radius: 10px;
+		border-radius: var(--basic-border-radius);
 	}
 
 	h2 {
@@ -49,6 +60,12 @@
 		color: var(--primary-color);
 		border: none;
 		background-color: transparent;
+		cursor: pointer;
+		font-size: 14px;
+	}
+
+	button:hover {
+		text-decoration: underline;
 	}
 
 	header {
@@ -69,5 +86,16 @@
 		justify-content: space-between;
 		align-items: center;
 		margin: 10px 0;
+	}
+
+	li > a {
+		color: #000;
+	}
+
+	@media (max-width: 900px) {
+		ul {
+			max-height: 100px;
+			overflow: scroll;
+		}
 	}
 </style>

@@ -1,34 +1,71 @@
-
 <script lang="ts">
 	export let type = "text";
 	export let name: string;
 	export let label: string | undefined = undefined;
 	export let value = "";
+	export let error = "";
+
+	let fileErrors = [];
 
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
 		const target = e.target as HTMLInputElement;
 		value = target.value;
 	};
+
+	const handleFileInput = (e) => {
+		let image = e.target.files[0];
+		fileErrors = [];
+
+		if (validateImageFile(image)) {
+			let reader = new FileReader();
+			reader.readAsDataURL(image);
+			reader.onload = e => {
+				value = e.target.result.toString();
+			}
+		}
+	}
+
+	const validateImageFile = (image) => {
+		// convert to MB
+		const size = Math.round((image.size / 1024));
+		// get file extension
+		const extension = image.name.split(".").pop();
+
+		const allowedExtensions = ["jpg", "jpeg", "png", "webp"];
+
+		if (!allowedExtensions.includes(extension)) {
+			fileErrors = [...fileErrors, "This file extension is not allowed."];
+		}
+
+		if (size > 2048) {
+			fileErrors = [...fileErrors, "Size of file is bigger than 2MB."];
+		}
+
+		return !(fileErrors.length > 0);
+	}
 </script>
 
 <!-- 
   @component
   Custom input component with inner label
  -->
-<div class="input-container">
+<div class="input">
+	<div class="input-container">
 	{#if label}
 		<label for={name}>{label}</label>
+	{/if}
 		<input
 			{type}
 			{name}
 			id={name}
-			{value}
-			class="has-label"
-			on:input={handleInput}
+			value={type !== 'file' ? value : ""}
+			class={label ? "has-label" : undefined}
+			on:input={type === 'file' ? handleFileInput : handleInput}
 			{...$$restProps}
 		/>
-	{:else}
-		<input {type} {name} id={name} {value} on:input={handleInput} {...$$restProps} />
+	</div>
+	{#if error || fileErrors.length}
+		<div class="errors">{`${error ? `${error} ` : ""}${fileErrors.join(", ")}`}</div>
 	{/if}
 </div>
 
@@ -45,6 +82,7 @@
 	}
 
 	input {
+		height: 30px;
 		padding: 10px;
 		border: none;
 		border-radius: inherit;
@@ -52,7 +90,7 @@
 	}
 
 	input.has-label {
-		padding: 25px 10px 10px;
+		padding: 30px 10px 10px;
 	}
 
 	label {
@@ -61,5 +99,11 @@
 		top: 5px;
 		font-size: 14px;
 		color: var(--gray-color-dark);
+	}
+
+	.errors {
+		font-size: 14px;
+		color: darkred;
+		padding: 5px;
 	}
 </style>
