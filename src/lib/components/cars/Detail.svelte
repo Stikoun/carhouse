@@ -4,7 +4,7 @@
 
 	// fields to be shown in same layout
 	const fields: Array<keyof Car> = ["brand", "model", "year"];
-		
+
 	$: title = [$selectedCar.brand, $selectedCar.model].join(" ");
 </script>
 
