@@ -11,28 +11,30 @@
 	let fileErrors: string[] = [];
 
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
-		const target = e.target as HTMLInputElement;
-		value = target.value;
+		value = (e.target as HTMLInputElement).value;
 
 		if (type === "file") {
 			handleFileInput(e);
 		}
 	};
 
-	const handleFileInput = (e) => {
-		let image = e.target.files[0];
+	const handleFileInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
+		const target = e.target as HTMLInputElement;
+		let image = target.files && target.files[0];
 		fileErrors = [];
 
-		if (validateImageFile(image)) {
+		if (image && validateImageFile(image)) {
 			let reader = new FileReader();
 			reader.readAsDataURL(image);
 			reader.onload = (e) => {
-				file = e.target.result.toString();
+				if (e.target?.result) {
+					file = e.target.result.toString();
+				}
 			};
 		}
 	};
 
-	const validateImageFile = (image: HTMLInputElement) => {
+	const validateImageFile = (image: File) => {
 		// convert to MB
 		const size = Math.round(image.size / 1024);
 		// get file extension
