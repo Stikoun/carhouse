@@ -13,6 +13,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{queriedCar ? [$selectedCar.brand, $selectedCar.model].join(" ") : "Car not found"}</title>
+</svelte:head>
+
 {#if !queriedCar}
 	<NotFound />
 {/if}

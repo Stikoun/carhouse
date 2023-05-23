@@ -1,5 +1,5 @@
 <section>
-	<h2>The car is not existing</h2>
+	<h2>Car not found</h2>
 </section>
 
 <style>

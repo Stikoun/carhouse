@@ -23,7 +23,7 @@
 	const deleteAllCars = () => {
 		cars.reset();
 		goto("/");
-	}
+	};
 
 	// reset selected car if there are no cars left
 	cars.subscribe((storedCars) => {

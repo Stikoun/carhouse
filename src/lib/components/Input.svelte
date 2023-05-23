@@ -51,10 +51,6 @@
 	};
 </script>
 
-<!-- 
-  @component
-  Custom input component with inner label
- -->
 <div class="input">
 	<div class="input-container">
 		{#if label}

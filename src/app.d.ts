@@ -9,17 +9,17 @@ declare global {
 	}
 
 	interface Car {
-		id: string,
-		brand: string
-		model: string
-		year: string
-		image: string
+		id: string;
+		brand: string;
+		model: string;
+		year: string;
+		image: string;
 	}
 
 	interface CarErrors {
-		brand?: string,
-		model?: string,
-		year?: string
+		brand?: string;
+		model?: string;
+		year?: string;
 	}
 }
 

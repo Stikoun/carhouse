@@ -3,16 +3,18 @@
 	import { selectedCar } from "$stores/cars";
 
 	// fields to be shown in same layout
-	const fields = ["brand", "model", "year"];
+	const fields: Array<keyof Car> = ["brand", "model", "year"];
+		
+	$: title = [$selectedCar.brand, $selectedCar.model].join(" ");
 </script>
 
 <section>
 	{#if $selectedCar?.image}
-		<img src={$selectedCar?.image} alt={`${[$selectedCar.brand, $selectedCar.model].join(" ")}`} />
+		<img src={$selectedCar?.image} alt={title} />
 	{/if}
 	<div>
 		<header>
-			<h2>{[$selectedCar.brand, $selectedCar.model].join(" ")}</h2>
+			<h2>{title}</h2>
 		</header>
 		<div class="fields">
 			{#each fields as field}
