@@ -1,8 +1,11 @@
 <script lang="ts">
+	// style
 	import "./style.css";
+	// components
 	import Form from "$components/cars/Form.svelte";
 	import Detail from "$components/cars/Detail.svelte";
 	import List from "$components/cars/List.svelte";
+	// store
 	import { selectedCar } from "$stores/cars";
 </script>
 
@@ -32,7 +35,7 @@
 		flex-direction: column;
 		padding: 16px;
 		width: 100%;
-		max-width: 64rem;
+		max-width: 1024px;
 		margin: 40px auto 0;
 		box-sizing: border-box;
 	}
@@ -45,7 +48,7 @@
 		margin-top: 20px;
 	}
 
-	@media (max-width: 900px) {
+	@media (max-width: 770px) {
 		.wrapper {
 			grid-template-columns: 1fr;
 		}

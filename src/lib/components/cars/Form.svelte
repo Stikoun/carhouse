@@ -1,7 +1,10 @@
 <script lang="ts">
-	import Input from "$components/Input.svelte";
-	import { carInitialValues, cars } from "$stores/cars";
+	// svelte
 	import { goto } from "$app/navigation";
+	// components
+	import Input from "$components/Input.svelte";
+	// store
+	import { carInitialValues, cars } from "$stores/cars";
 
 	// get current year for input limit
 	const currentYear: number = new Date().getFullYear();
@@ -9,6 +12,8 @@
 	let newCar: Car = { ...carInitialValues };
 	// storing form errors
 	let errors: CarErrors = {};
+	// store value of input file - image
+	let imageInput = "";
 
 	const handleSubmit = () => {
 		if (validateForm(newCar)) {
@@ -17,6 +22,8 @@
 			if (newCarId) {
 				// assign initial values to reset form
 				newCar = { ...carInitialValues };
+				// reset image input
+				imageInput = "";
 				goto(`/${newCarId}`);
 			}
 		}
@@ -29,8 +36,8 @@
 		const requiredFields = ["brand", "model"];
 		// make an object from required fields that are not filled
 		const errorsArray = requiredFields
-			.filter((field) => !car[field as keyof Car])
-			.map((field) => [field, "This field is required"]);
+				.filter((field) => !car[field as keyof Car])
+				.map((field) => [field, "This field is required"]);
 
 		if (errorsArray.length) {
 			errors = Object.fromEntries(errorsArray);
@@ -50,37 +57,38 @@
 	<div class="input-wrapper">
 		<div class="input-group">
 			<Input
-				type="text"
-				name="brand"
-				label="Brand"
-				placeholder="BMW"
-				required
-				error={errors.brand}
-				bind:value={newCar.brand}
+					type="text"
+					name="brand"
+					label="Brand"
+					placeholder="BMW"
+					required
+					error={errors.brand}
+					bind:value={newCar.brand}
 			/>
 			<Input
-				type="text"
-				name="model"
-				label="Model"
-				placeholder="M4"
-				required
-				error={errors.model}
-				bind:value={newCar.model}
+					type="text"
+					name="model"
+					label="Model"
+					placeholder="M4"
+					required
+					error={errors.model}
+					bind:value={newCar.model}
 			/>
 			<Input
-				type="number"
-				name="year"
-				label="Year"
-				placeholder="2020"
-				max={currentYear}
-				bind:value={newCar.year}
+					type="number"
+					name="year"
+					label="Year"
+					placeholder="2020"
+					max={currentYear}
+					bind:value={newCar.year}
 			/>
 			<Input
-				type="file"
-				name="image"
-				label="Image"
-				accept=".jpg, .jpeg, .png, .webp"
-				bind:value={newCar.image}
+					type="file"
+					name="image"
+					label="Image"
+					accept=".jpg, .jpeg, .png, .webp"
+					bind:value={imageInput}
+					bind:file={newCar.image}
 			/>
 		</div>
 		<button>Add car</button>
@@ -96,11 +104,11 @@
 
 	button {
 		min-width: 150px;
-		max-height: 70px;
+		height: 66px;
 		background-image: linear-gradient(
-			to right,
-			var(--primary-color) 40%,
-			var(--primary-color-dark) 100%
+				to right,
+				var(--primary-color) 40%,
+				var(--primary-color-dark) 100%
 		);
 		background-size: 200% auto;
 		box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
@@ -131,5 +139,48 @@
 
 	.input-group > :global(.input:last-child) {
 		border-right: none;
+	}
+
+	@media (max-width: 1024px) {
+		.input-wrapper {
+			align-items: center;
+		}
+
+		.input-group {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			border-right: 1px solid var(--gray-color-light);
+		}
+
+		.input-group > :global(.input:nth-child(3)) {
+			border-right: none;
+		}
+
+		.input-group > :global(.input:last-child) {
+			margin-top: 10px;
+			grid-column: 3 span;
+		}
+	}
+
+	@media (max-width: 470px) {
+		.input-group {
+			border-bottom: 1px solid var(--gray-color-light);
+			padding-bottom: 10px;
+		}
+
+		.input-wrapper {
+			display: block;
+		}
+
+		.input-group > :global(.input),
+		.input-group {
+			border-right: none;
+		}
+
+		.input-wrapper > :global(button) {
+			margin-top: 10px;
+			height: 40px;
+			width: 100%;
+		}
 	}
 </style>

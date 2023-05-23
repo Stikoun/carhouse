@@ -1,7 +1,7 @@
-<div class="close" on:click on:keydown />
+<div on:click on:keydown />
 
 <style>
-	.close {
+	div {
 		position: relative;
 		cursor: pointer;
 		height: 16px;
@@ -9,12 +9,12 @@
 		opacity: 0.3;
 	}
 
-	.close:hover {
+	div:hover {
 		opacity: 1;
 	}
 
-	.close:before,
-	.close:after {
+	div:before,
+	div:after {
 		position: absolute;
 		content: " ";
 		inset: 0;
@@ -23,11 +23,11 @@
 		background-color: #333;
 	}
 
-	.close:before {
+	div:before {
 		transform: rotate(45deg);
 	}
 
-	.close:after {
+	div:after {
 		transform: rotate(-45deg);
 	}
 </style>

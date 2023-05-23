@@ -1,4 +1,5 @@
 <script lang="ts">
+	// store
 	import { selectedCar } from "$stores/cars";
 
 	// fields to be shown in same layout

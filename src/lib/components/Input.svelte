@@ -1,15 +1,22 @@
 <script lang="ts">
+	// props
 	export let type = "text";
 	export let name: string;
 	export let label: string | undefined = undefined;
 	export let value = "";
+	export let file = "";
 	export let error = "";
 
+	// store errors related to file input
 	let fileErrors: string[] = [];
 
 	const handleInput = (e: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
 		const target = e.target as HTMLInputElement;
 		value = target.value;
+
+		if (type === "file") {
+			handleFileInput(e);
+		}
 	};
 
 	const handleFileInput = (e) => {
@@ -20,7 +27,7 @@
 			let reader = new FileReader();
 			reader.readAsDataURL(image);
 			reader.onload = (e) => {
-				value = e.target.result.toString();
+				file = e.target.result.toString();
 			};
 		}
 	};
@@ -56,10 +63,10 @@
 		<input
 			{type}
 			{name}
+			{value}
 			id={name}
-			value={type !== "file" ? value : ""}
 			class={label ? "has-label" : undefined}
-			on:input={type === "file" ? handleFileInput : handleInput}
+			on:input={handleInput}
 			{...$$restProps}
 		/>
 	</div>
@@ -125,5 +132,11 @@
 		font-size: 14px;
 		color: darkred;
 		padding: 5px;
+	}
+
+	@media (max-width: 770px) {
+		input {
+			font-size: 16px;
+		}
 	}
 </style>

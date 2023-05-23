@@ -1,18 +1,29 @@
 <script lang="ts">
-	import { cars, selectedCar } from "$stores/cars";
+	// svelte
 	import { goto } from "$app/navigation";
 	import { browser } from "$app/environment";
+	// store
+	import { cars, selectedCar } from "$stores/cars";
+	// components
 	import Close from "$components/Close.svelte";
 
-	// TODO: reset file field, prepare no cars find
+	// delete specific car and move to last car if exists
 	const deleteCar = (carId: string) => {
 		cars.delete(carId);
 		const lastCarId = $cars[$cars.length - 1]?.id;
 
 		if (lastCarId) {
 			goto(`/${lastCarId}`);
+		} else {
+			goto("/");
 		}
 	};
+
+	// reset store and URL
+	const deleteAllCars = () => {
+		cars.reset();
+		goto("/");
+	}
 
 	// reset selected car if there are no cars left
 	cars.subscribe((storedCars) => {
@@ -25,7 +36,7 @@
 <aside>
 	<header>
 		<h2>Car list</h2>
-		{#if $cars.length}<button type="button" on:click={cars.reset}>Delete all</button>{/if}
+		{#if $cars.length}<button type="button" on:click={deleteAllCars}>Delete all</button>{/if}
 	</header>
 	<ul>
 		{#if !$cars.length}
@@ -106,7 +117,7 @@
 		justify-content: center;
 	}
 
-	@media (max-width: 900px) {
+	@media (max-width: 770px) {
 		ul {
 			max-height: 100px;
 			overflow: scroll;
